@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "servico.jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'servico.jwt.secret'"
+  },
+  {
+    "name": "servico.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'servico.jwt.expiration'"
+  }
+]}
