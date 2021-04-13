@@ -1,16 +1,19 @@
 package br.com.servicos.servicosApi.domain.service;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import br.com.servicos.servicosApi.api.model.request.AtualizacaoUsuarioRequest;
-import br.com.servicos.servicosApi.api.model.request.UsuarioRequest;
 import br.com.servicos.servicosApi.core.security.TokenService;
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
+import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.exception.UsuarioNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
@@ -38,17 +41,25 @@ public class UsuarioService {
 		Long idUsuario = getIdUsuario(request);
 		return getOne(idUsuario);
 	}
-
-	public Usuario insere(UsuarioRequest request) {
-		Usuario usuario = request.converter();
+	
+	@Transactional
+	public Usuario insere(Usuario usuario) {
+		usuarioRepository.detach(usuario);
+		
+		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+		
+		if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+			throw new NegocioException(
+					String.format("Já existe um usuário cadastrado com o e-mail %s", usuario.getEmail()));
+		}
+		
+		if (usuario.isNovo()) {
+			usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+		}
+		
 		return usuarioRepository.save(usuario);
 	}
 
-	public Usuario atualiza(HttpServletRequest request, AtualizacaoUsuarioRequest form) throws Exception {
-		Usuario usuario = this.getOne(request);
-		Usuario usuarioAtualizado = form.atualizar(usuario, usuarioRepository);
-		return usuarioAtualizado;
-	}
 
 	public void excluir(HttpServletRequest request) {
 		Long id = this.getIdUsuario(request);

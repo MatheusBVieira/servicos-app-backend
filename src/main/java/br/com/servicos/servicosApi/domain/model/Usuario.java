@@ -91,4 +91,8 @@ public class Usuario implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	public boolean isNovo() {
+		return getId() == null;
+	}
 }

@@ -1,6 +1,5 @@
 package br.com.servicos.servicosApi.api.exceptionhandler;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +14,7 @@ import lombok.Getter;
 public class Problem {
 
 	private Integer status;
-	private LocalDateTime timestamp;
+//	private LocalDateTime timestamp;
 	private String type;
 	private String title;
 	private String detail;
