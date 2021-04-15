@@ -42,6 +42,7 @@ public class UsuarioController {
 		return usuarioResponseAssembler.toResponse(usuario);
 	}
 
+	//TODO retorno null no nome da cidade e estado.
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioResponse cadastrar(@RequestBody @Valid UsuarioRequest request, UriComponentsBuilder uriBuilder) {

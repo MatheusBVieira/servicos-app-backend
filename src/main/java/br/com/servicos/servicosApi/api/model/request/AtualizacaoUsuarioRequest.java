@@ -6,7 +6,6 @@ import lombok.Data;
 public class AtualizacaoUsuarioRequest {
 
 	private String nomeCompleto;
-	private String senha;
 	private String email;
 	private String telefone;
 	private EnderecoRequest endereco;
