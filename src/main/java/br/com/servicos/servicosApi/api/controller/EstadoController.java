@@ -24,13 +24,14 @@ import br.com.servicos.servicosApi.api.assembler.EstadoRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.EstadoResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.EstadoRequest;
 import br.com.servicos.servicosApi.api.model.response.EstadoResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.EstadoControllerOpenApi;
 import br.com.servicos.servicosApi.domain.model.Estado;
 import br.com.servicos.servicosApi.domain.repository.EstadoRepository;
 import br.com.servicos.servicosApi.domain.service.EstadoService;
 
 @RestController
 @RequestMapping("/estados")
-public class EstadoController {
+public class EstadoController implements EstadoControllerOpenApi {
 
 	@Autowired
 	private EstadoRepository estadoRepository;

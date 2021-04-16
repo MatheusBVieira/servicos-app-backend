@@ -6,11 +6,13 @@ import javax.validation.constraints.NotNull;
 
 import br.com.servicos.servicosApi.domain.model.Cidade;
 import br.com.servicos.servicosApi.domain.model.Estado;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class CidadeRequest {
 
+	@ApiModelProperty(example = "Florianópolis", required = true)
 	@NotBlank
 	private String nome;
 	

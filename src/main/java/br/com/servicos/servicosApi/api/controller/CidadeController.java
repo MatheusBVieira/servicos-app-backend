@@ -24,6 +24,7 @@ import br.com.servicos.servicosApi.api.assembler.CidadeRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.CidadeResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.CidadeRequest;
 import br.com.servicos.servicosApi.api.model.response.CidadeResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.CidadeControllerOpenApi;
 import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Cidade;
@@ -32,7 +33,7 @@ import br.com.servicos.servicosApi.domain.service.CidadeService;
 
 @RestController
 @RequestMapping(value = "/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
@@ -46,6 +47,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeRequestDisassembler cidadeRequestDisassembler;
 
+	@Override
 	@GetMapping
 	public List<CidadeResponse> listar(
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 20) Pageable paginacao) {
@@ -53,12 +55,14 @@ public class CidadeController {
 		return cidadeReponseAssembler.toCollectionResponse(cidades.getContent());
 	}
 
+	@Override
 	@GetMapping("/{cidadeId}")
 	public CidadeResponse buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 		return cidadeReponseAssembler.toResponse(cidade);
 	}
 
+	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeResponse adicionar(@RequestBody @Valid CidadeRequest cidadeRequest) {
@@ -73,6 +77,7 @@ public class CidadeController {
 		}
 	}
 
+	@Override
 	@PutMapping("/{cidadeId}")
 	public CidadeResponse atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeRequest cidadeRequest) {
 		try {
@@ -88,6 +93,7 @@ public class CidadeController {
 		}
 	}
 
+	@Override
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {

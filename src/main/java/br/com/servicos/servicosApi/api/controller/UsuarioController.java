@@ -13,51 +13,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.servicos.servicosApi.api.assembler.UsuarioInputDisassembler;
 import br.com.servicos.servicosApi.api.assembler.UsuarioResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.AtualizacaoUsuarioRequest;
 import br.com.servicos.servicosApi.api.model.request.UsuarioRequest;
 import br.com.servicos.servicosApi.api.model.response.UsuarioResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.UsuarioControllerOpenApi;
 import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.service.UsuarioService;
 
 @RestController
 @RequestMapping("usuario")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@Autowired
 	private UsuarioInputDisassembler usuarioInputDisassembler;
-	
+
 	@Autowired
 	private UsuarioResponseAssembler usuarioResponseAssembler;
 
+	@Override
 	@GetMapping
 	public UsuarioResponse retornaUsuarioLogado(HttpServletRequest request) {
 		Usuario usuario = usuarioService.getOne(request);
 		return usuarioResponseAssembler.toResponse(usuario);
 	}
 
-	//TODO retorno null no nome da cidade e estado.
+	// TODO retorno null no nome da cidade e estado.
+	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public UsuarioResponse cadastrar(@RequestBody @Valid UsuarioRequest request, UriComponentsBuilder uriBuilder) {
+	public UsuarioResponse adicionar(@RequestBody @Valid UsuarioRequest request) {
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(request);
 		usuario = usuarioService.insere(usuario);
 		return usuarioResponseAssembler.toResponse(usuario);
 	}
 
+	@Override
 	@PutMapping
-	public UsuarioResponse atualiza(HttpServletRequest request, @RequestBody @Valid AtualizacaoUsuarioRequest usuarioRequest)
-			throws Exception {
+	public UsuarioResponse atualiza(HttpServletRequest request,
+			@RequestBody @Valid AtualizacaoUsuarioRequest usuarioRequest) {
 		Usuario usuarioAtual = usuarioService.getOne(request);
 		usuarioInputDisassembler.copyToDomainObject(usuarioRequest, usuarioAtual);
 		usuarioAtual = usuarioService.insere(usuarioAtual);
-		
+
 		return usuarioResponseAssembler.toResponse(usuarioAtual);
 
 	}

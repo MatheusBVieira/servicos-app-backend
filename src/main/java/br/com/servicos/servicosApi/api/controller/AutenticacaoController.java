@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.servicos.servicosApi.api.model.request.LoginRequest;
 import br.com.servicos.servicosApi.api.model.response.TokenResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.AutenticacaoControllerOpenApi;
 import br.com.servicos.servicosApi.core.security.TokenService;
 
 @RestController
 @RequestMapping("/auth")
-public class AutenticacaoController {
+public class AutenticacaoController implements AutenticacaoControllerOpenApi {
 
 	@Autowired
 	private AuthenticationManager authManager;
