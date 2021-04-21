@@ -62,6 +62,7 @@ public class SwaggerConfigurations implements WebMvcConfigurer {
 				.tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Estados", "Gerencia os estados"),
 						new Tag("Usuários", "Gerencia os usuários"),
+						new Tag("Categoria", "Gerencia as categorias"),
 						new Tag("Autenticação", "Faz login"))
 				.globalOperationParameters(
 						Arrays.asList(new ParameterBuilder().name("Authorization").description("Header para token JWT")

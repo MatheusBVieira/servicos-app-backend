@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.servicos.servicosApi.api.assembler.UsuarioInputDisassembler;
+import br.com.servicos.servicosApi.api.assembler.UsuarioRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.UsuarioResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.AtualizacaoUsuarioRequest;
 import br.com.servicos.servicosApi.api.model.request.UsuarioRequest;
@@ -31,7 +31,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	private UsuarioService usuarioService;
 
 	@Autowired
-	private UsuarioInputDisassembler usuarioInputDisassembler;
+	private UsuarioRequestDisassembler usuarioInputDisassembler;
 
 	@Autowired
 	private UsuarioResponseAssembler usuarioResponseAssembler;

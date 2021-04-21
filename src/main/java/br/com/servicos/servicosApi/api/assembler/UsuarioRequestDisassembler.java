@@ -9,7 +9,7 @@ import br.com.servicos.servicosApi.api.model.request.UsuarioRequest;
 import br.com.servicos.servicosApi.domain.model.Usuario;
 
 @Component
-public class UsuarioInputDisassembler {
+public class UsuarioRequestDisassembler {
 
 	@Autowired
 	private ModelMapper modelMapper;

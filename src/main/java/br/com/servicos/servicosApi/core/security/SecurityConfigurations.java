@@ -51,6 +51,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers("/cidades/*").permitAll()
 		.antMatchers("/estados").permitAll()
 		.antMatchers("/estados/*").permitAll()
+		.antMatchers("/categorias").permitAll()
+		.antMatchers("/categorias/*").permitAll()
 		.anyRequest().authenticated().and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
