@@ -46,6 +46,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/usuario").permitAll()
+		.antMatchers(HttpMethod.POST, "/prestador").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers("/cidades").permitAll()
 		.antMatchers("/cidades/*").permitAll()
@@ -53,6 +54,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers("/estados/*").permitAll()
 		.antMatchers("/categorias").permitAll()
 		.antMatchers("/categorias/*").permitAll()
+		.antMatchers(HttpMethod.GET, "/servicos").permitAll()
 		.anyRequest().authenticated().and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

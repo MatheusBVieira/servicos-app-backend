@@ -28,12 +28,15 @@ public class UsuarioService {
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private CidadeService cidadeService;
 
 	private Usuario getOne(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException(idUsuario));
 	}
 
-	private Long getIdUsuario(HttpServletRequest request) {
+	public Long getIdUsuario(HttpServletRequest request) {
 		return tokenService.getIdUsuario(request);
 	}
 
@@ -45,6 +48,8 @@ public class UsuarioService {
 	@Transactional
 	public Usuario insere(Usuario usuario) {
 		usuarioRepository.detach(usuario);
+		
+		cidadeService.buscarOuFalhar(usuario.getEndereco().getCidade().getId());
 		
 		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
 		
