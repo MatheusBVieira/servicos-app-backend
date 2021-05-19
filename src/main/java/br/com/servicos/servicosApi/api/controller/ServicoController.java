@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,9 +36,6 @@ import br.com.servicos.servicosApi.domain.service.ServicoService;
 public class ServicoController {
 
 	@Autowired
-	private ServicoRepository servicoRepository;
-	
-	@Autowired
 	private ServicoService servicoService;
 	
 	@Autowired
@@ -48,8 +46,11 @@ public class ServicoController {
 	
 	@GetMapping
 	public List<ServicoResponse> listar(
+			@RequestParam(required = false) Long categoriaId,
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 20) Pageable paginacao) {
-		Page<Servico> servicos = servicoRepository.findAll(paginacao);
+		
+		Page<Servico> servicos = servicoService.listaPorCategoria(paginacao, categoriaId);
+			
 		return servicoResponseAssembler.toCollectionResponse(servicos.getContent());
 	}
 	
