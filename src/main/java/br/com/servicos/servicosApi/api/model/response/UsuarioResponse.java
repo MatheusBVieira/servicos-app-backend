@@ -1,5 +1,7 @@
 package br.com.servicos.servicosApi.api.model.response;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -20,6 +22,8 @@ public class UsuarioResponse {
 	
 	@ApiModelProperty(example = "48991466688")
 	private String telefone;
+
+	private List<PerfilReponse> perfis;
 	
 	private EnderecoResponse endereco;
 }

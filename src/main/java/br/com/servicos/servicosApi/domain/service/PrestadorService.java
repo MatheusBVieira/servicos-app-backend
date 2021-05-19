@@ -1,5 +1,6 @@
 package br.com.servicos.servicosApi.domain.service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.exception.UsuarioNaoEncontradoException;
+import br.com.servicos.servicosApi.domain.model.Perfil;
 import br.com.servicos.servicosApi.domain.model.PrestadorServico;
 import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.repository.PrestadorRepository;
@@ -45,10 +47,13 @@ public class PrestadorService {
 
 		if (prestadorExistente.isPresent() && !prestadorExistente.get().equals(prestador)) {
 			throw new NegocioException(
-					String.format("Já existe um usuário cadastrado com o e-mail %s", prestador.getEmail()));
+					String.format("Já existe um prestador cadastrado com o e-mail %s", prestador.getEmail()));
 		}
 
 		if (prestador.isNovo()) {
+			Perfil perfil = new Perfil();
+			perfil.setNome("ROLE_PRESTADOR");
+			prestador.setPerfis(Arrays.asList(perfil));
 			prestador.setSenha(BCrypt.hashpw(prestador.getSenha(), BCrypt.gensalt()));
 		}
 

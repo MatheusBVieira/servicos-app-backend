@@ -1,5 +1,6 @@
 package br.com.servicos.servicosApi.domain.service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import br.com.servicos.servicosApi.core.security.TokenService;
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.exception.UsuarioNaoEncontradoException;
+import br.com.servicos.servicosApi.domain.model.Perfil;
 import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
 
@@ -59,6 +61,9 @@ public class UsuarioService {
 		}
 		
 		if (usuario.isNovo()) {
+			Perfil perfil = new Perfil();
+			perfil.setNome("ROLE_USER");
+			usuario.setPerfis(Arrays.asList(perfil));
 			usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
 		}
 		

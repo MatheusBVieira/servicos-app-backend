@@ -1,8 +1,8 @@
 package br.com.servicos.servicosApi.api.model.response;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Setter;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -22,6 +22,8 @@ public class PrestadorResponse {
 
 	@ApiModelProperty(example = "48991466688")
 	private String telefone;
+	
+	private PerfilReponse perfis;
 
 	private EnderecoResponse endereco;
 }
