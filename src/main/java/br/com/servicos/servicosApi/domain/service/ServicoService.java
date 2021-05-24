@@ -19,7 +19,7 @@ import br.com.servicos.servicosApi.domain.repository.ServicoRepository;
 @Service
 public class ServicoService {
 
-	private static final String MSG_USUARIO_EM_USO = "Servico de código %d não pode ser removida, pois está em uso";;
+	private static final String MSG_USUARIO_EM_USO = "Servico de código %d não pode ser removida, pois está em uso";
 
 	@Autowired
 	private ServicoRepository servicoRepository;

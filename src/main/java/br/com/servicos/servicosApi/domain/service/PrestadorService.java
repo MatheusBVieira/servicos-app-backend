@@ -35,6 +35,10 @@ public class PrestadorService {
 
 	public PrestadorServico getOne(HttpServletRequest request) {
 		Long id = usuarioService.getIdUsuario(request);
+		return getOne(id);
+	}
+
+	public PrestadorServico getOne(Long id) {
 		return prestadorRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 	}
 	

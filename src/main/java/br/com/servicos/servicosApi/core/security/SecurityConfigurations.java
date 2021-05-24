@@ -55,6 +55,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers("/categorias").permitAll()
 		.antMatchers("/categorias/*").permitAll()
 		.antMatchers(HttpMethod.GET, "/servicos").permitAll()
+		.antMatchers(HttpMethod.GET, "/avaliacao").permitAll()
+		.antMatchers(HttpMethod.GET, "/avaliacao/media").permitAll()
 		.anyRequest().authenticated().and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

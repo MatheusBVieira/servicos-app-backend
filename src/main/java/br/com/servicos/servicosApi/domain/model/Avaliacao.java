@@ -31,5 +31,9 @@ public class Avaliacao {
 	
 	@ManyToOne
 	private Servico servico;
+
+	public boolean isNovo() {
+		return getId() == null;
+	}
 	
 }

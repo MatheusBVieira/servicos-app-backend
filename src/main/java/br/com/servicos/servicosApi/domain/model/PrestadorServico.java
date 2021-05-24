@@ -21,7 +21,7 @@ public class PrestadorServico extends Usuario {
 	@OneToMany
 	private List<ServicoAgendado> servicos;
 	
-	@OneToMany
-	private List<Avaliacao> avaliacoes;
+//	@OneToMany
+//	private List<Avaliacao> avaliacoes;
 	
 }
