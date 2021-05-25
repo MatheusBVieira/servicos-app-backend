@@ -1,5 +1,6 @@
 package br.com.servicos.servicosApi.domain.service;
 
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -84,4 +85,11 @@ public class UsuarioService {
 		}
 	}
 
+	public void insereMidia(Long id, HttpServletRequest request) throws MalformedURLException {
+		Usuario usuario = getOne(request);
+		usuario.setMidiaPath("midia/" + id.toString());
+		
+		insere(usuario);
+	}
+	
 }

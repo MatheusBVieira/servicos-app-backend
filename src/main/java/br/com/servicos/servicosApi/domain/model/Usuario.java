@@ -37,16 +37,17 @@ public class Usuario implements UserDetails {
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	public Long id;
-	public String nomeCompleto;
+	private Long id;
+	private String nomeCompleto;
 	@Column(unique = true)
-	public String telefone;
+	private String telefone;
 	@Column(unique = true)
-	public String cpf;
+	private String cpf;
 	@Column(unique = true)
-	public String email;
-	public String senha;
-
+	private String email;
+	private String senha;
+	private String midiaPath;
+	
 	@Embedded
 	private Endereco endereco;
 
