@@ -23,6 +23,8 @@ public class PrestadorResponse {
 	@ApiModelProperty(example = "48991466688")
 	private String telefone;
 	
+	private String midiaPath;
+	
 	private PerfilReponse perfis;
 
 	private EnderecoResponse endereco;
