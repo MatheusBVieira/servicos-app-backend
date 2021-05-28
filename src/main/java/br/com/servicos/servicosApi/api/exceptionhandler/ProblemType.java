@@ -9,7 +9,8 @@ public enum ProblemType {
 	DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensível"),
 	RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrado", "Recurso não encontrado"),
-	ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio");
+	ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio"), 
+	CONSTRAIN_VIOLATION("/constrain-violation", "Problema com a query do banco de dados");
 	
 	private String title;
 	private String uri;
