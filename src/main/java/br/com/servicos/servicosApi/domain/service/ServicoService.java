@@ -63,7 +63,7 @@ public class ServicoService {
 	public Page<Servico> listaPorCategoria(Pageable paginacao, Long categoriaId) {
 		if (categoriaId != null) {
 			Categoria categoria = categoriaService.buscarOuFalhar(categoriaId);
-			return servicoRepository.findByCategoria(categoria, paginacao);
+			return servicoRepository.findByCategoriaComNota(categoria, paginacao);
 		} else {
 			return servicoRepository.findAll(paginacao);
 		}

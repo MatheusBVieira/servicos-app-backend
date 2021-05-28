@@ -6,7 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "servico")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Servico {
 
 	@Id
@@ -22,11 +25,23 @@ public class Servico {
 	private String titulo;
 	private String descricao;
 	
+	@Transient
+	private Double notaMedia;
+	
 	@ManyToOne
 	private PrestadorServico prestadorServico;
 	
 	@ManyToOne
 	private Categoria categoria;
+	
+	public Servico(Double notaMedia, Servico servico)	{
+		this.notaMedia = notaMedia;
+		this.id = servico.getId();
+		this.titulo = servico.getTitulo();
+		this.descricao = servico.getDescricao();
+		this.categoria = servico.getCategoria();
+		this.prestadorServico = servico.getPrestadorServico();
+	}
 	
 	public boolean isNovo() {
 		return getId() == null;
