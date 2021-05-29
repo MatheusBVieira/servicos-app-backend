@@ -12,8 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -29,7 +27,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -53,16 +50,6 @@ public class Usuario implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Perfil> perfis = new ArrayList<>();
-
-	public Usuario(String nomeCompleto, String telefone, String cpf, String email, String senha, List<Perfil> perfis, Endereco endereco) {
-		this.nomeCompleto = nomeCompleto;
-		this.telefone = telefone;
-		this.cpf = cpf;
-		this.email = email;
-		this.senha = senha;
-		this.perfis = perfis;
-		this.endereco = endereco;
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

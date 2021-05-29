@@ -11,7 +11,7 @@ public class ServicoResponse {
 	private String titulo;
 	private String descricao;
 	private Double notaMedia;
-	private PrestadorResponse prestadorServico;
+	private UsuarioResponse prestadorServico;
 	private CategoriaResponse categoria;
 
 }

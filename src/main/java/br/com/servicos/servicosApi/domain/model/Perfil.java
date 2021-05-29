@@ -8,41 +8,24 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "perfil")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Perfil implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@EqualsAndHashCode.Include
 	private String nome;
-
-	public Perfil(String nome) {
-		super();
-		this.nome = nome;
-	}
-
-	public Perfil() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 	@Override
 	public String getAuthority() {

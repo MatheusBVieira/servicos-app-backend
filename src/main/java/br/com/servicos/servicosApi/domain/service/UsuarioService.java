@@ -1,7 +1,7 @@
 package br.com.servicos.servicosApi.domain.service;
 
 import java.net.MalformedURLException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +23,8 @@ import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
+
+	private static final String ROLE_PRESTADOR = "ROLE_PRESTADOR";
 
 	private static final String MSG_USUARIO_EM_USO = "Usuário de código %d não pode ser removido, pois está em uso";
 
@@ -49,7 +51,7 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public Usuario insere(Usuario usuario) {
+	public Usuario insere(Usuario usuario, Boolean isPrestador) {
 		usuarioRepository.detach(usuario);
 		
 		cidadeService.buscarOuFalhar(usuario.getEndereco().getCidade().getId());
@@ -62,11 +64,22 @@ public class UsuarioService {
 		}
 		
 		if (usuario.isNovo()) {
+			usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+			ArrayList<Perfil> perfis = new ArrayList<Perfil>();
+			
 			Perfil perfil = new Perfil();
 			perfil.setNome("ROLE_USER");
-			usuario.setPerfis(Arrays.asList(perfil));
-			usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+			perfis.add(perfil);
+			usuario.setPerfis(perfis);
+			
+			if (isPrestador) {
+				Perfil perfilPrestador = new Perfil();
+				perfilPrestador.setNome(ROLE_PRESTADOR);
+				perfis.add(perfilPrestador);
+				usuario.setPerfis(perfis);
+			}
 		}
+		
 		
 		return usuarioRepository.save(usuario);
 	}
@@ -89,7 +102,9 @@ public class UsuarioService {
 		Usuario usuario = getOne(request);
 		usuario.setMidiaPath("midia/" + id.toString());
 		
-		insere(usuario);
+		@SuppressWarnings("unlikely-arg-type")
+		boolean contains = usuario.getPerfis().contains("ROLE_PRESTADOR");
+		insere(usuario, contains);
 	}
 	
 }

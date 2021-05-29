@@ -48,8 +48,9 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioResponse adicionar(@RequestBody @Valid UsuarioRequest request) {
+		
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(request);
-		usuario = usuarioService.insere(usuario);
+		usuario = usuarioService.insere(usuario, request.getIsPrestador());
 		return usuarioResponseAssembler.toResponse(usuario);
 	}
 
@@ -59,12 +60,13 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 			@RequestBody @Valid AtualizacaoUsuarioRequest usuarioRequest) {
 		Usuario usuarioAtual = usuarioService.getOne(request);
 		usuarioInputDisassembler.copyToDomainObject(usuarioRequest, usuarioAtual);
-		usuarioAtual = usuarioService.insere(usuarioAtual);
+		usuarioAtual = usuarioService.insere(usuarioAtual, false);
 
 		return usuarioResponseAssembler.toResponse(usuarioAtual);
 
 	}
 
+	@Override
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(HttpServletRequest request) {

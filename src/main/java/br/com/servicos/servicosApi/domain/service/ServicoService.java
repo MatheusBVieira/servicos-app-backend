@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
 import br.com.servicos.servicosApi.domain.exception.ServicoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.model.Categoria;
-import br.com.servicos.servicosApi.domain.model.PrestadorServico;
 import br.com.servicos.servicosApi.domain.model.Servico;
+import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.repository.ServicoRepository;
 
 @Service
@@ -25,7 +25,7 @@ public class ServicoService {
 	private ServicoRepository servicoRepository;
 
 	@Autowired
-	private PrestadorService prestadorService;
+	private UsuarioService prestadorService;
 
 	@Autowired
 	private CategoriaService categoriaService;
@@ -37,7 +37,7 @@ public class ServicoService {
 		servico.setCategoria(categoria);
 
 		if (servico.isNovo()) {
-			PrestadorServico prestador = prestadorService.getOne(request);
+			Usuario prestador = prestadorService.getOne(request);
 			servico.setPrestadorServico(prestador);
 		}
 

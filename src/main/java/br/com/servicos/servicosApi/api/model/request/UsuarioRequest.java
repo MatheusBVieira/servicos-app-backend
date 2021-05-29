@@ -40,6 +40,8 @@ public class UsuarioRequest {
 	@Length(min = 11)
 	private String telefone;
 	
+	private Boolean isPrestador = false;
+	
 	@Valid
 	@NotNull
 	private EnderecoRequest endereco;

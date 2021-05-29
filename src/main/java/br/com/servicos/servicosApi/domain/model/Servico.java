@@ -29,7 +29,7 @@ public class Servico {
 	private Double notaMedia;
 	
 	@ManyToOne
-	private PrestadorServico prestadorServico;
+	private Usuario prestadorServico;
 	
 	@ManyToOne
 	private Categoria categoria;

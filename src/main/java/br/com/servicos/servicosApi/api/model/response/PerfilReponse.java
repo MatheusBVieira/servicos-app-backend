@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class PerfilReponse {
 
-	private Long id;
 	private String nome;
 	
 }
