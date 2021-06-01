@@ -33,7 +33,7 @@ public class Usuario implements UserDetails {
 
 	@EqualsAndHashCode.Include
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nomeCompleto;
 	@Column(unique = true)

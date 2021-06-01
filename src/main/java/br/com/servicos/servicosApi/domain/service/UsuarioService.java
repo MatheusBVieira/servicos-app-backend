@@ -25,7 +25,6 @@ import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
 public class UsuarioService {
 
 	private static final String ROLE_PRESTADOR = "ROLE_PRESTADOR";
-
 	private static final String MSG_USUARIO_EM_USO = "Usuário de código %d não pode ser removido, pois está em uso";
 
 	@Autowired
@@ -70,14 +69,14 @@ public class UsuarioService {
 			Perfil perfil = new Perfil();
 			perfil.setNome("ROLE_USER");
 			perfis.add(perfil);
-			usuario.setPerfis(perfis);
 			
 			if (isPrestador) {
 				Perfil perfilPrestador = new Perfil();
 				perfilPrestador.setNome(ROLE_PRESTADOR);
 				perfis.add(perfilPrestador);
-				usuario.setPerfis(perfis);
 			}
+			
+			usuario.setPerfis(perfis);
 		}
 		
 		

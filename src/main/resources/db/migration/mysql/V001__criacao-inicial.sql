@@ -26,7 +26,7 @@ CREATE TABLE cidade (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE usuario (
-  id bigint(20) NOT NULL,
+  id bigint(20) NOT NULL AUTO_INCREMENT,
   cpf varchar(255) DEFAULT NULL,
   email varchar(255) DEFAULT NULL,
   endereco_bairro varchar(255) DEFAULT NULL,
@@ -91,13 +91,6 @@ CREATE TABLE midia (
   tipo varchar(255) DEFAULT NULL,
 
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE hibernate_sequences (
-  sequence_name varchar(255) NOT NULL,
-  next_val bigint(20) DEFAULT NULL,
-
-  PRIMARY KEY (sequence_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE perfil (
