@@ -80,13 +80,6 @@ CREATE TABLE midia (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE hibernate_sequences (
-  sequence_name varchar(255) NOT NULL,
-  next_val bigint DEFAULT NULL,
-
-  PRIMARY KEY (sequence_name)
-);
-
 CREATE TABLE perfil (
   id BIGSERIAL,
   nome varchar(255) DEFAULT NULL,
