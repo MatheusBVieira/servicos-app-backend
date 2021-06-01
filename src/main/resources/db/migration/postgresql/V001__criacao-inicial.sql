@@ -73,7 +73,7 @@ CREATE TABLE avaliacao (
 CREATE TABLE midia (
   id BIGSERIAL,
   data_de_upload date DEFAULT NULL,
-  midia bytea NOT NULL,
+  midia oid NOT NULL,
   nome varchar(255) DEFAULT NULL,
   tipo varchar(255) DEFAULT NULL,
 
