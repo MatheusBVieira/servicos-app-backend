@@ -19,6 +19,9 @@ import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
+	
+	private static final String ROLE_ADMIN = "ADMIN";
+	private static final String ROLE_PRESTADOR = "PRESTADOR";
 
 	@Autowired
 	private AutenticacaoService autenticacaoService;
@@ -44,17 +47,22 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	//Configuracoes de autorizacao
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/usuario").permitAll()
-		.antMatchers(HttpMethod.POST, "/prestador").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
-		.antMatchers("/cidades").permitAll()
-		.antMatchers("/cidades/*").permitAll()
-		.antMatchers("/estados").permitAll()
-		.antMatchers("/estados/*").permitAll()
-		.antMatchers("/categorias").permitAll()
-		.antMatchers("/categorias/*").permitAll()
+		.antMatchers(HttpMethod.GET, "/cidades").permitAll()
+		.antMatchers("/cidades").hasRole(ROLE_ADMIN)
+		.antMatchers("/cidades/*").hasRole(ROLE_ADMIN)
+		.antMatchers(HttpMethod.GET, "/estados").permitAll()
+		.antMatchers("/estados").hasRole(ROLE_ADMIN)
+		.antMatchers("/estados/*").hasRole(ROLE_ADMIN)
+		.antMatchers(HttpMethod.GET, "/categorias").permitAll()
+		.antMatchers("/categorias").hasRole(ROLE_ADMIN)
+		.antMatchers("/categorias/*").hasRole(ROLE_ADMIN)
 		.antMatchers(HttpMethod.GET, "/servicos").permitAll()
+		.antMatchers("/servicos").hasRole(ROLE_PRESTADOR)
+		.antMatchers("/servicos/*").hasRole(ROLE_PRESTADOR)
 		.antMatchers(HttpMethod.GET, "/avaliacao").permitAll()
 		.antMatchers(HttpMethod.GET, "/avaliacao/media").permitAll()
 		.antMatchers(HttpMethod.GET, "/midia/*").permitAll()
