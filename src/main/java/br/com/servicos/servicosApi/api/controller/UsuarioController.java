@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.servicos.servicosApi.api.assembler.UsuarioRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.UsuarioResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.AtualizacaoUsuarioRequest;
+import br.com.servicos.servicosApi.api.model.request.SenhaRequest;
 import br.com.servicos.servicosApi.api.model.request.UsuarioRequest;
 import br.com.servicos.servicosApi.api.model.response.UsuarioResponse;
 import br.com.servicos.servicosApi.api.openapi.controller.UsuarioControllerOpenApi;
@@ -71,6 +72,12 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(HttpServletRequest request) {
 		usuarioService.excluir(request);
+	}
+	
+	@PutMapping("/senha")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void alterarSenha(HttpServletRequest request, @RequestBody @Valid SenhaRequest senha) {
+		usuarioService.alterarSenha(request, senha.getSenhaAtual(), senha.getNovaSenha());
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.servicos.servicosApi.core.security.TokenService;
@@ -35,6 +36,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private CidadeService cidadeService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private Usuario getOne(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException(idUsuario));
@@ -104,6 +108,17 @@ public class UsuarioService {
 		@SuppressWarnings("unlikely-arg-type")
 		boolean contains = usuario.getPerfis().contains("ROLE_PRESTADOR");
 		insere(usuario, contains);
+	}
+
+	@Transactional
+	public void alterarSenha(HttpServletRequest request, String senhaAtual, String novaSenha) {
+		Usuario usuario = getOne(request);
+		
+		if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
+			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
+		}
+		
+		usuario.setSenha(passwordEncoder.encode(novaSenha));
 	}
 	
 }
