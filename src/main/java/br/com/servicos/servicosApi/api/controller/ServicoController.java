@@ -54,6 +54,12 @@ public class ServicoController {
 		return servicoResponseAssembler.toCollectionResponse(servicos.getContent());
 	}
 	
+	@GetMapping("/{servicoId}")
+	public ServicoResponse buscar(@PathVariable Long servicoId) {
+		Servico servico = servicoService.buscarOuFalhar(servicoId);
+		return servicoResponseAssembler.toResponse(servico);
+	}
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ServicoResponse adicionar(@RequestBody @Valid ServicoRequest servicoRequest, HttpServletRequest request) {
