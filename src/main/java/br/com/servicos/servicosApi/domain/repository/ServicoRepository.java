@@ -10,7 +10,7 @@ import br.com.servicos.servicosApi.domain.model.Servico;
 
 public interface ServicoRepository extends CustomJpaRepository<Servico, Long> {
 	
-	@Query(value = "select new Servico(COALESCE(avg(a.nota),0) as notaMedia, s) from Servico s left join Avaliacao a on s.categoria=:categoria group by s.id")
+	@Query(value = "select new Servico(COALESCE(avg(a.nota),0) as notaMedia, s) from Servico s left join Avaliacao a on s.categoria=:categoria where s.categoria=:categoria group by s.id")
 	Page<Servico> findByCategoriaComNota(@Param("categoria")Categoria categoria, Pageable paginacao);
 	
 }
