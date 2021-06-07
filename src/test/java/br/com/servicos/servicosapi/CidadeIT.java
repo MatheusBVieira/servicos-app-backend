@@ -22,6 +22,7 @@ import br.com.servicos.servicosApi.domain.repository.EstadoRepository;
 import br.com.servicos.servicosApi.domain.repository.UsuarioRepository;
 import br.com.servicos.servicosApi.domain.util.UsuarioUtil;
 import br.com.servicos.servicosapi.util.DatabaseCleaner;
+import br.com.servicos.servicosapi.util.PopulaTestUtils;
 import br.com.servicos.servicosapi.util.ResourceUtils;
 import br.com.servicos.servicosapi.util.UsuarioTestUtil;
 import io.restassured.RestAssured;
@@ -150,13 +151,10 @@ public class CidadeIT {
 		usuarioAdmin = UsuarioUtil.criaAdmin("12345678");
 		usuarioRepository.save(usuarioAdmin);
 		
-		Estado estadoSC = new Estado();
-		estadoSC.setNome("Santa Catarina");
+		Estado estadoSC = PopulaTestUtils.criaEstadoSC();
 		estadoRepository.save(estadoSC);
 		
-		cidadeFloripa = new Cidade();
-		cidadeFloripa.setEstado(estadoSC);
-		cidadeFloripa.setNome("Florianópolis");
+		cidadeFloripa = PopulaTestUtils.criaCidadeFloripa(estadoSC);
 		cidadeRepository.save(cidadeFloripa);
 		
 		quantidadeCidadesCadastradas = (int) cidadeRepository.count();
