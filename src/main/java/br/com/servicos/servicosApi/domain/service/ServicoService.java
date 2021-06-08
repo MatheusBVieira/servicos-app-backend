@@ -45,7 +45,7 @@ public class ServicoService {
 	}
 
 	public Servico buscarOuFalhar(Long servicoId) {
-		return servicoRepository.findById(servicoId).orElseThrow(() -> new ServicoNaoEncontradoException(servicoId));
+		return servicoRepository.findByIdComNota(servicoId).orElseThrow(() -> new ServicoNaoEncontradoException(servicoId));
 	}
 
 	public void excluir(Long servicoId) {
