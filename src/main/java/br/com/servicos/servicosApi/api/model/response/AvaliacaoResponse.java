@@ -13,6 +13,7 @@ public class AvaliacaoResponse {
 	private Float nota;
 	private String comentario;
 	private LocalDateTime data;
-	private UsuarioResponse avaliador;
-	private ServicoResponse servico;
+	private UsuarioResumoResponse avaliador;
+	private ServicoResumoResponse servico;
+	
 }

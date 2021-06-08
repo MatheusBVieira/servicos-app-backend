@@ -52,6 +52,12 @@ public class AvaliacaoController {
 
 		return avaliacaoResponseAssembler.toCollectionResponse(avaliacaoes.getContent());
 	}
+	
+	@GetMapping("/{avaliacaoId}")
+	public AvaliacaoResponse busca(@PathVariable Long avaliacaoId) {
+		Avaliacao avaliacao = avaliacaoService.buscarOuFalhar(avaliacaoId);
+		return avaliacaoResponseAssembler.toResponse(avaliacao);
+	}
 
 	@GetMapping("/media")
 	public MediaResponse retornaNotaMedia(@RequestParam(required = true) Long servicoId) {

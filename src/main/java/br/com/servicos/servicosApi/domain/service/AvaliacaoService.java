@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import br.com.servicos.servicosApi.api.model.response.MediaResponse;
 import br.com.servicos.servicosApi.domain.exception.AvaliacaoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
+import br.com.servicos.servicosApi.domain.exception.EntidadeNaoEncontradaException;
 import br.com.servicos.servicosApi.domain.model.Avaliacao;
 import br.com.servicos.servicosApi.domain.model.Servico;
 import br.com.servicos.servicosApi.domain.model.Usuario;
@@ -23,7 +24,8 @@ import br.com.servicos.servicosApi.domain.repository.AvaliacaoRepository;
 public class AvaliacaoService {
 
 	private static final String MSG_AVALIACAO_EM_USO = "Avaliação de código %d não pode ser removida, pois está em uso";
-
+	private static final String MSG_AVALIACAO_NAO_ENCONTRADA = "Não existe um cadastro de avaliação de código %d";
+	
 	@Autowired
 	private AvaliacaoRepository avaliacaoRepository;
 	
@@ -72,6 +74,10 @@ public class AvaliacaoService {
 			throw new EntidadeEmUsoException(String.format(MSG_AVALIACAO_EM_USO, avaliacaoId));
 		}
 		
+	}
+
+	public Avaliacao buscarOuFalhar(Long avaliacaoId) {
+		return avaliacaoRepository.findById(avaliacaoId).orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(MSG_AVALIACAO_NAO_ENCONTRADA, avaliacaoId)));
 	}
 
 }

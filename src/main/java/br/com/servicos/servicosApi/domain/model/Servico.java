@@ -1,6 +1,7 @@
 package br.com.servicos.servicosApi.domain.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,10 +29,10 @@ public class Servico {
 	@Transient
 	private Double notaMedia;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario prestadorServico;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Categoria categoria;
 	
 	public Servico(Double notaMedia, Servico servico)	{

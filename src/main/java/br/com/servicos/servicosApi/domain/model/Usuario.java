@@ -45,10 +45,10 @@ public class Usuario implements UserDetails {
 	private String senha;
 	private String midiaPath;
 	
-	@Embedded
+	@Embedded()
 	private Endereco endereco;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
