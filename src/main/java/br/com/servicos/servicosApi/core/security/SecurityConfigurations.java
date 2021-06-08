@@ -68,7 +68,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers("/servicos").hasRole(ROLE_PRESTADOR)
 		.antMatchers("/servicos/*").hasRole(ROLE_PRESTADOR)
 		.antMatchers(HttpMethod.GET, "/avaliacao").permitAll()
-		.antMatchers(HttpMethod.GET, "/avaliacao/media").permitAll()
+		.antMatchers(HttpMethod.GET, "/avaliacao/*").permitAll()
 		.antMatchers(HttpMethod.GET, "/midia/*").permitAll()
 		.anyRequest().authenticated().and().cors()
 		.and().csrf().disable()
