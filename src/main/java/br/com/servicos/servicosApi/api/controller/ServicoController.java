@@ -26,6 +26,7 @@ import br.com.servicos.servicosApi.api.assembler.ServicoRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.ServicoResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.ServicoRequest;
 import br.com.servicos.servicosApi.api.model.response.ServicoResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.ServicoControllerOpenApi;
 import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Servico;
@@ -33,7 +34,7 @@ import br.com.servicos.servicosApi.domain.service.ServicoService;
 
 @RestController
 @RequestMapping(value = "/servicos")
-public class ServicoController {
+public class ServicoController implements ServicoControllerOpenApi {
 
 	@Autowired
 	private ServicoService servicoService;
@@ -44,6 +45,7 @@ public class ServicoController {
 	@Autowired
 	private ServicoRequestDisassembler servicoRequestDisassembler;
 	
+	@Override
 	@GetMapping
 	public List<ServicoResponse> listar(
 			@RequestParam(required = false) Long categoriaId,
@@ -54,6 +56,7 @@ public class ServicoController {
 		return servicoResponseAssembler.toCollectionResponse(servicos.getContent());
 	}
 	
+	@Override
 	@GetMapping("/{servicoId}")
 	public ServicoResponse buscar(@PathVariable Long servicoId) {
 		Servico servico = servicoService.buscarOuFalhar(servicoId);
@@ -89,6 +92,7 @@ public class ServicoController {
 		}
 	}
 	
+	@Override
 	@DeleteMapping("/{servicoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long servicoId) {

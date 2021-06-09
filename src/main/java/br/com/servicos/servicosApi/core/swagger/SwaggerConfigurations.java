@@ -24,7 +24,6 @@ import br.com.servicos.servicosApi.api.exceptionhandler.Problem;
 import br.com.servicos.servicosApi.api.openapi.model.PageableModelOpenApi;
 import lombok.var;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -63,10 +62,13 @@ public class SwaggerConfigurations implements WebMvcConfigurer {
 						new Tag("Estados", "Gerencia os estados"),
 						new Tag("Usuários", "Gerencia os usuários"),
 						new Tag("Categoria", "Gerencia as categorias"),
-						new Tag("Autenticação", "Faz login"))
-				.globalOperationParameters(
-						Arrays.asList(new ParameterBuilder().name("Authorization").description("Header para token JWT")
-								.modelRef(new ModelRef("string")).parameterType("header").required(false).build()));
+						new Tag("Autenticação", "Faz login"),
+						new Tag("Mídia", "Gerencia as mídias"),
+						new Tag("Serviços", "Gerencia os serviços"),
+						new Tag("Avaliação", "Gerencia as avaliações"));
+//				.globalOperationParameters(
+//						Arrays.asList(new ParameterBuilder().name("Authorization").description("Header para token JWT")
+//								.modelRef(new ModelRef("string")).parameterType("header").required(false).build()));
 	}
 
 	@Override

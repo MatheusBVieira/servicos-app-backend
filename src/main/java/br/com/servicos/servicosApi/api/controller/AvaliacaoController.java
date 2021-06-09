@@ -26,6 +26,7 @@ import br.com.servicos.servicosApi.api.assembler.AvaliacaoResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.AvaliacaoRequest;
 import br.com.servicos.servicosApi.api.model.response.AvaliacaoResponse;
 import br.com.servicos.servicosApi.api.model.response.MediaResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.AvaliacaoControllerOpenApi;
 import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Avaliacao;
@@ -33,7 +34,7 @@ import br.com.servicos.servicosApi.domain.service.AvaliacaoService;
 
 @RestController
 @RequestMapping("/avaliacao")
-public class AvaliacaoController {
+public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 
 	@Autowired
 	private AvaliacaoService avaliacaoService;

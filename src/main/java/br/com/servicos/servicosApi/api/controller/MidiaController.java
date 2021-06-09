@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.servicos.servicosApi.api.openapi.controller.MidiaControllerOpenApi;
 import br.com.servicos.servicosApi.domain.model.Midia;
 import br.com.servicos.servicosApi.domain.service.MidiaService;
 
 @RestController
 @RequestMapping("/midia")
-public class MidiaController {
+public class MidiaController implements MidiaControllerOpenApi {
 
 	@Autowired
 	private MidiaService midiaService;

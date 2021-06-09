@@ -49,7 +49,6 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioResponse adicionar(@RequestBody @Valid UsuarioRequest request) {
-		
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(request);
 		usuario = usuarioService.insere(usuario, request.getIsPrestador());
 		return usuarioResponseAssembler.toResponse(usuario);
