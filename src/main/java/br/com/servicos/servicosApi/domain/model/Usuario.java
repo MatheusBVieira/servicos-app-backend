@@ -48,7 +48,7 @@ public class Usuario implements UserDetails {
 	@Embedded()
 	private Endereco endereco;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
