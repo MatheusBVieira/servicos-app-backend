@@ -45,12 +45,13 @@ public class ServicoController {
 	
 	@GetMapping
 	public List<ServicoResponse> listar(
-			@RequestParam(required = true) Long categoriaId,
+			@RequestParam(required = false) Long categoriaId,
+			@RequestParam(required = false) Long prestadorId,
 			@RequestParam(required = false) Double latitude,
 			@RequestParam(required = false) Double longitude,
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 20) Pageable paginacao) {
 		
-		List<Servico> servicos = servicoService.lista(categoriaId, latitude, longitude, paginacao);
+		List<Servico> servicos = servicoService.lista(categoriaId, prestadorId, latitude, longitude, paginacao);
 		
 		return servicoResponseAssembler.toCollectionResponse(servicos);
 	}

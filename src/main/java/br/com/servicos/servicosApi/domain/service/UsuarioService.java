@@ -40,7 +40,7 @@ public class UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	private Usuario getOne(Long idUsuario) {
+	public Usuario getOne(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException(idUsuario));
 	}
 

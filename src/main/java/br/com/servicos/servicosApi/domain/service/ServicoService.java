@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.servicos.servicosApi.domain.exception.EntidadeEmUsoException;
+import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.exception.ServicoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.model.Categoria;
 import br.com.servicos.servicosApi.domain.model.Servico;
@@ -61,9 +62,26 @@ public class ServicoService {
 		}
 	}
 
-	public List<Servico> lista(Long categoriaId, Double latitude, Double longitude, Pageable paginacao) {
-		Categoria categoria = categoriaService.buscarOuFalhar(categoriaId);
-		return servicoRepository.find(categoria, latitude, longitude, paginacao);
+	public List<Servico> lista(Long categoriaId, Long prestadorId, Double latitude, Double longitude, Pageable paginacao) {
+		if (verificaDoisId(categoriaId, prestadorId)) {
+			throw new NegocioException("Por favor informe categoriaId ou prestadorId");
+		}
+		
+		if (verificaId(prestadorId)) {
+			Categoria categoria = categoriaService.buscarOuFalhar(categoriaId);
+			return servicoRepository.find(categoria, latitude, longitude, paginacao);
+		} else {
+			prestadorService.getOne(prestadorId);
+			return servicoRepository.findByPrestadorServicoId(prestadorId, paginacao).getContent();
+		}
+	}
+
+	private boolean verificaDoisId(Long categoriaId, Long prestadorId) {
+		return verificaId(prestadorId) && verificaId(categoriaId);
+	}
+
+	private boolean verificaId(Long id) {
+		return id == null;
 	}
 
 }
