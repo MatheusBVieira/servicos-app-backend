@@ -14,4 +14,6 @@ public class UsuarioResumoResponse {
 	@ApiModelProperty(example = "Matheus Bruggemann Vieira")
 	private String nomeCompleto;
 	
+	private String midiaPath;
+	
 }
