@@ -23,6 +23,10 @@ public class EnderecoResponse {
 	@ApiModelProperty(example = "Campeche")
 	private String bairro;
 	
+	private Double latitude;
+	
+	private Double longitude;
+	
 	private CidadeResumoResponse cidade;
 	
 }

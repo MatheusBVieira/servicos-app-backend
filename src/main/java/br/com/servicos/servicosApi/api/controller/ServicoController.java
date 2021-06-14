@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -26,7 +25,6 @@ import br.com.servicos.servicosApi.api.assembler.ServicoRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.ServicoResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.ServicoRequest;
 import br.com.servicos.servicosApi.api.model.response.ServicoResponse;
-import br.com.servicos.servicosApi.api.openapi.controller.ServicoControllerOpenApi;
 import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Servico;
@@ -34,7 +32,7 @@ import br.com.servicos.servicosApi.domain.service.ServicoService;
 
 @RestController
 @RequestMapping(value = "/servicos")
-public class ServicoController implements ServicoControllerOpenApi {
+public class ServicoController {
 
 	@Autowired
 	private ServicoService servicoService;
@@ -45,18 +43,20 @@ public class ServicoController implements ServicoControllerOpenApi {
 	@Autowired
 	private ServicoRequestDisassembler servicoRequestDisassembler;
 	
-	@Override
 	@GetMapping
 	public List<ServicoResponse> listar(
-			@RequestParam(required = false) Long categoriaId,
+			@RequestParam(required = true) Long categoriaId,
+			@RequestParam(required = false) Double latitude,
+			@RequestParam(required = false) Double longitude,
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 20) Pageable paginacao) {
 		
-		Page<Servico> servicos = servicoService.listaPorCategoria(paginacao, categoriaId);
-			
-		return servicoResponseAssembler.toCollectionResponse(servicos.getContent());
+		List<Servico> servicos = servicoService.lista(categoriaId, latitude, longitude, paginacao);
+		
+		return servicoResponseAssembler.toCollectionResponse(servicos);
 	}
+
+
 	
-	@Override
 	@GetMapping("/{servicoId}")
 	public ServicoResponse buscar(@PathVariable Long servicoId) {
 		Servico servico = servicoService.buscarOuFalhar(servicoId);
@@ -92,7 +92,6 @@ public class ServicoController implements ServicoControllerOpenApi {
 		}
 	}
 	
-	@Override
 	@DeleteMapping("/{servicoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long servicoId) {

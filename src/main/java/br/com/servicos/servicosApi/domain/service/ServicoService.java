@@ -1,11 +1,12 @@
 package br.com.servicos.servicosApi.domain.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -60,13 +61,9 @@ public class ServicoService {
 		}
 	}
 
-	public Page<Servico> listaPorCategoria(Pageable paginacao, Long categoriaId) {
-		if (categoriaId != null) {
-			Categoria categoria = categoriaService.buscarOuFalhar(categoriaId);
-			return servicoRepository.findByCategoriaComNota(categoria, paginacao);
-		} else {
-			return servicoRepository.findAll(paginacao);
-		}
+	public List<Servico> lista(Long categoriaId, Double latitude, Double longitude, Pageable paginacao) {
+		Categoria categoria = categoriaService.buscarOuFalhar(categoriaId);
+		return servicoRepository.find(categoria, latitude, longitude, paginacao);
 	}
 
 }

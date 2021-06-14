@@ -1,5 +1,8 @@
 package br.com.servicos.servicosApi.api.model.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +22,11 @@ public class ServicoResponse {
 	
 	@ApiModelProperty(example = "4.2")
 	private Double notaMedia;
+	
+	@JsonInclude(Include.NON_NULL)
+	private String distanciaKM;
+	
+	private Double distanciaMaxima;
 	
 	private UsuarioResponse prestadorServico;
 	private CategoriaResponse categoria;

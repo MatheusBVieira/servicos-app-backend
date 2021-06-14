@@ -33,6 +33,12 @@ public class Endereco {
 	@Column(name = "endereco_bairro")
 	private String bairro;
 	
+	@Column(name = "endereco_latitude")
+	private Double latitude;
+	
+	@Column(name = "endereco_longitude")
+	private Double longitude;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "endereco_cidade_id")
 	private Cidade cidade;

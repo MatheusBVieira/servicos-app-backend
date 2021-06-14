@@ -29,6 +29,12 @@ public class EnderecoRequest {
 	@NotBlank
 	private String bairro;
 	
+	@NotBlank
+	private Double latitude;
+	
+	@NotBlank
+	private Double longitude;
+	
 	@Valid
 	@NotNull
 	private CidadeIdRequest cidade;

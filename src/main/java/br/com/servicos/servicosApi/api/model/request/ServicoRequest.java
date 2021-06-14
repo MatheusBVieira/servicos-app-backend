@@ -18,6 +18,10 @@ public class ServicoRequest {
 	@NotBlank
 	private String descricao;
 	
+	@ApiModelProperty(example = "10.2", required = true)
+	@NotNull
+	private Double distanciaMaxima;
+	
 	@ApiModelProperty(example = "1", required = true)
 	@Valid
 	@NotNull

@@ -1,5 +1,6 @@
 package br.com.servicos.servicosApi.domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,26 +27,44 @@ public class Servico {
 	private String titulo;
 	private String descricao;
 	
+	@Column(name = "distancia_maxima")
+	private Double distanciaMaxima;
+
 	@Transient
 	private Double notaMedia;
-	
+
+	@Transient
+	private Double distanciaKM;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario prestadorServico;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Categoria categoria;
-	
-	public Servico(Double notaMedia, Servico servico)	{
+
+	public Servico(Servico servico, Double notaMedia) {
 		this.notaMedia = notaMedia;
 		this.id = servico.getId();
 		this.titulo = servico.getTitulo();
 		this.descricao = servico.getDescricao();
+		this.distanciaMaxima = servico.getDistanciaMaxima();
 		this.categoria = servico.getCategoria();
 		this.prestadorServico = servico.getPrestadorServico();
 	}
-	
+
+	public Servico(Servico servico, Double notaMedia, Double distanciaKM) {
+		this.notaMedia = notaMedia;
+		this.distanciaKM = distanciaKM;
+		this.id = servico.getId();
+		this.titulo = servico.getTitulo();
+		this.descricao = servico.getDescricao();
+		this.distanciaMaxima = servico.getDistanciaMaxima();
+		this.categoria = servico.getCategoria();
+		this.prestadorServico = servico.getPrestadorServico();
+	}
+
 	public boolean isNovo() {
 		return getId() == null;
 	}
-	
+
 }
