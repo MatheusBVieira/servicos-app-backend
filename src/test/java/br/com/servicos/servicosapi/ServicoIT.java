@@ -36,6 +36,8 @@ import io.restassured.http.ContentType;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
 public class ServicoIT {
+	private static final int QUANTIDADE_SERVICOS_PROXIMO = 1;
+
 	private static final int SERVICO_ID_INEXISTENTE = 100;
 
 	@LocalServerPort
@@ -62,7 +64,11 @@ public class ServicoIT {
 	private String token;
 	private Usuario usuarioAdmin;
 	private Servico servicoFaxineira;
-	private int quantidadeServicosCadastrados;
+	private int quantidadeServicosCadastradosLimpeza;
+
+	private Usuario usuarioPrestador;
+
+	private Categoria categoriaLimpeza;
 
 	@Before
 	public void setUp() {
@@ -87,14 +93,27 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarQuantidadeCorretaDeServicos_QuandoConsultarServicos() {
+	public void deveRetornarQuantidadeCorretaDeServicos_QuandoConsultarServicosProximos() {
 		given()
-			.param("prestadorId", usuarioAdmin.getId())
+			.param("categoriaId", categoriaLimpeza.getId())
+			.param("latitude", -27.600199504638695)
+			.param("longitude", -48.43534402342197)
 			.accept(ContentType.JSON)
 		.when()
 			.get()
 		.then()
-			.body("", hasSize(quantidadeServicosCadastrados));
+			.body("", hasSize(QUANTIDADE_SERVICOS_PROXIMO));
+	}
+	
+	@Test
+	public void deveRetornarQuantidadeCorretaDeServicos_QuandoConsultarServicos() {
+		given()
+			.param("categoriaId", categoriaLimpeza.getId())
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.body("", hasSize(quantidadeServicosCadastradosLimpeza));
 	}
 	
 	@Test
@@ -162,36 +181,59 @@ public class ServicoIT {
 	private void prepararDados() {
 		usuarioAdmin = UsuarioUtil.criaAdmin("12345678");
 		usuarioRepository.save(usuarioAdmin);
+		
+		usuarioPrestador = UsuarioUtil.criaPrestador("12345678");
+		usuarioRepository.save(usuarioPrestador);
 
-		Estado estadoSC = PopulaTestUtils.criaEstadoSC();
-		estadoRepository.save(estadoSC);
+		criaCidadeEstado();
+		criaCategorias();
+		criaServicos();
 		
-		Cidade cidadeFloripa = PopulaTestUtils.criaCidadeFloripa(estadoSC);
-		cidadeRepository.save(cidadeFloripa);
+		quantidadeServicosCadastradosLimpeza = servicoRepository.countByCategoria(categoriaLimpeza);
 		
-		Categoria categoriaLimpeza = PopulaTestUtils.criaCategoriaLimpeza();
-		categoriaRepository.save(categoriaLimpeza);
-		
-		Categoria categoriaJardineiro = new Categoria();
-		categoriaJardineiro.setCategoria("Jardineiro");
-		categoriaRepository.save(categoriaJardineiro);
-		
+	}
+
+	private void criaServicos() {
 		servicoFaxineira = new Servico();
 		servicoFaxineira.setCategoria(categoriaLimpeza);
 		servicoFaxineira.setDescricao("Trabalho a 20 anos como faxineira");
-		servicoFaxineira.setPrestadorServico(usuarioAdmin);
+		servicoFaxineira.setPrestadorServico(usuarioPrestador);
 		servicoFaxineira.setTitulo("Serviço de faxineira");
+		servicoFaxineira.setDistanciaMaxima(5.0);
 		servicoRepository.save(servicoFaxineira);
+		
+		Servico servicoFaxineira2 = new Servico();
+		servicoFaxineira2.setCategoria(categoriaLimpeza);
+		servicoFaxineira2.setDescricao("Trabalho a 10 anos como faxineira");
+		servicoFaxineira2.setPrestadorServico(usuarioAdmin);
+		servicoFaxineira2.setTitulo("Serviço de faxineira");
+		servicoFaxineira2.setDistanciaMaxima(15.0);
+		servicoRepository.save(servicoFaxineira2);
 		
 		Servico servicoJardinagem = new Servico();
 		servicoJardinagem.setCategoria(categoriaLimpeza);
 		servicoJardinagem.setDescricao("Trabalho a 10 anos como jardineiro");
 		servicoJardinagem.setPrestadorServico(usuarioAdmin);
 		servicoJardinagem.setTitulo("Serviço de jardineiro");
+		servicoFaxineira.setDistanciaMaxima(20.0);
 		servicoRepository.save(servicoJardinagem);
+	}
+
+	private void criaCategorias() {
+		categoriaLimpeza = PopulaTestUtils.criaCategoriaLimpeza();
+		categoriaRepository.save(categoriaLimpeza);
 		
-		quantidadeServicosCadastrados = (int) servicoRepository.count();
+		Categoria categoriaJardineiro = new Categoria();
+		categoriaJardineiro.setCategoria("Jardineiro");
+		categoriaRepository.save(categoriaJardineiro);
+	}
+
+	private void criaCidadeEstado() {
+		Estado estadoSC = PopulaTestUtils.criaEstadoSC();
+		estadoRepository.save(estadoSC);
 		
+		Cidade cidadeFloripa = PopulaTestUtils.criaCidadeFloripa(estadoSC);
+		cidadeRepository.save(cidadeFloripa);
 	}
 
 
