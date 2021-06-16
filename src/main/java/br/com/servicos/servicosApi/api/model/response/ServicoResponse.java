@@ -28,7 +28,7 @@ public class ServicoResponse {
 	
 	private Double distanciaMaxima;
 	
-	private UsuarioResumoResponse prestadorServico;
+	private UsuarioServicoResponse prestadorServico;
 	private CategoriaResponse categoria;
 
 }
