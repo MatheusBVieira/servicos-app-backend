@@ -29,10 +29,10 @@ public class EnderecoRequest {
 	@NotBlank
 	private String bairro;
 	
-	@NotBlank
+	@NotNull
 	private Double latitude;
 	
-	@NotBlank
+	@NotNull
 	private Double longitude;
 	
 	@Valid

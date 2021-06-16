@@ -1,0 +1,1 @@
+ALTER TABLE usuario DROP CONSTRAINT uk_usuario_telefone; 
