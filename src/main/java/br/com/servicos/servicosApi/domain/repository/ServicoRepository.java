@@ -14,7 +14,7 @@ public interface ServicoRepository extends CustomJpaRepository<Servico, Long>, S
 	@Query(value = "select new Servico(s, COALESCE(avg(a.nota),0) as notaMedia) from Servico s left join Avaliacao a on s.id=:servicoId where s.id=:servicoId group by s.id")
 	Optional<Servico> findByIdComNota(Long servicoId);
 	
-	@Query(value = "select new Servico(s, COALESCE(avg(a.nota),0) as notaMedia) from Servico s left join Avaliacao a on s.prestadorServico.id=:prestadorServico where s.id=:prestadorServico group by s.id")
+	@Query(value = "select new Servico(s, COALESCE(avg(a.nota),0) as notaMedia) from Servico s left join Avaliacao a on s.prestadorServico.id=:prestadorServico where s.prestadorServico.id=:prestadorServico group by s.id")
 	Page<Servico> findByPrestadorServicoId(Long prestadorServico, Pageable paginacao);
 	
 	Integer countByCategoria(Categoria categoria);
