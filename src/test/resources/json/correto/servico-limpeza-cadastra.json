@@ -1,6 +1,7 @@
 {
   "titulo":"Servico de faxineira",
 	"descricao":"Trabalho a 20 anos como faxineira",
+	"distanciaMaxima":30.0,
 	"categoria" : {
 	    "id":1
   }

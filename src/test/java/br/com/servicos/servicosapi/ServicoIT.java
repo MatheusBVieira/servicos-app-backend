@@ -87,8 +87,9 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarQuantidadeCorretaDeCategorias_QuandoConsultarServicos() {
+	public void deveRetornarQuantidadeCorretaDeServicos_QuandoConsultarServicos() {
 		given()
+			.param("prestadorId", usuarioAdmin.getId())
 			.accept(ContentType.JSON)
 		.when()
 			.get()
@@ -97,7 +98,7 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarStatus201_QuandoCadastrarCategoria() {
+	public void deveRetornarStatus201_QuandoCadastrarServico() {
 		given()
 			.body(ResourceUtils.getContentFromResource("/json/correto/servico-limpeza-cadastra.json"))
 			.contentType(ContentType.JSON)
@@ -110,7 +111,7 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCategoriaExistente() {
+	public void deveRetornarRespostaEStatusCorretos_QuandoConsultarServicoExistente() {
 		given()
 			.pathParam("servicoId", servicoFaxineira.getId())
 			.accept(ContentType.JSON)
@@ -122,7 +123,7 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarStatus200_QuandoAtualizarCategoria() {
+	public void deveRetornarStatus200_QuandoAtualizarServico() {
 		given()
 			.body(ResourceUtils.getContentFromResource("/json/correto/servico-limpeza-atualiza.json"))
 			.pathParam("servicoId", servicoFaxineira.getId())
@@ -136,7 +137,7 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarStatus204_QuandoDeletarCategoria() {
+	public void deveRetornarStatus204_QuandoDeletarServico() {
 		given()
 			.pathParam("servicoId", servicoFaxineira.getId())
 			.accept(ContentType.JSON)
@@ -148,7 +149,7 @@ public class ServicoIT {
 	}
 	
 	@Test
-	public void deveRetornarStatus404_QuandoConsultarCategoriaInexistente() {
+	public void deveRetornarStatus404_QuandoConsultarServicoInexistente() {
 		given()
 			.pathParam("servicoId", SERVICO_ID_INEXISTENTE)
 			.accept(ContentType.JSON)
