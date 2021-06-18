@@ -22,4 +22,5 @@ public class AvaliacaoRequestDisassembler {
 		
 		modelMapper.map(avaliacaoRequest, avaliacao);
 	}
+
 }

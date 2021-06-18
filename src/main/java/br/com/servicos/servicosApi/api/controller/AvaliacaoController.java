@@ -23,13 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.servicos.servicosApi.api.assembler.AvaliacaoRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.AvaliacaoResponseAssembler;
+import br.com.servicos.servicosApi.api.assembler.LiberaAvaliacaoRequestDisassembler;
 import br.com.servicos.servicosApi.api.model.request.AvaliacaoRequest;
+import br.com.servicos.servicosApi.api.model.request.LiberaAvaliacaoRequest;
 import br.com.servicos.servicosApi.api.model.response.AvaliacaoResponse;
 import br.com.servicos.servicosApi.api.model.response.MediaResponse;
 import br.com.servicos.servicosApi.api.openapi.controller.AvaliacaoControllerOpenApi;
-import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
-import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Avaliacao;
+import br.com.servicos.servicosApi.domain.model.LiberaAvaliacao;
 import br.com.servicos.servicosApi.domain.service.AvaliacaoService;
 
 @RestController
@@ -45,6 +46,9 @@ public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 	@Autowired
 	private AvaliacaoRequestDisassembler avaliacaoRequestDisassembler;
 
+	@Autowired
+	private LiberaAvaliacaoRequestDisassembler liberaAvaliacaoRequestDisassembler;
+
 	@GetMapping
 	public List<AvaliacaoResponse> listar(@RequestParam(required = true) Long servicoId,
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 20) Pageable paginacao) {
@@ -53,18 +57,25 @@ public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 
 		return avaliacaoResponseAssembler.toCollectionResponse(avaliacaoes.getContent());
 	}
-	
+
 	@GetMapping("/{avaliacaoId}")
 	public AvaliacaoResponse busca(@PathVariable Long avaliacaoId) {
 		Avaliacao avaliacao = avaliacaoService.buscarOuFalhar(avaliacaoId);
 		return avaliacaoResponseAssembler.toResponse(avaliacao);
 	}
 
+	@GetMapping("/libera")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void busca(@RequestParam(required = true) Long servicoId,
+			HttpServletRequest request) {
+		
+		avaliacaoService.podeComentar(servicoId, request);
+		
+	}
+
 	@GetMapping("/media")
 	public MediaResponse retornaNotaMedia(@RequestParam(required = true) Long servicoId) {
-
 		return avaliacaoService.retornaMedia(servicoId);
-
 	}
 
 	@PostMapping
@@ -73,15 +84,21 @@ public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 	public AvaliacaoResponse adicionar(@PathVariable Long servicoId,
 			@RequestBody @Valid AvaliacaoRequest avaliacaoRequest, HttpServletRequest request) {
 
-		try {
-			Avaliacao avaliacao = avaliacaoRequestDisassembler.toDomainObject(avaliacaoRequest);
+		Avaliacao avaliacao = avaliacaoRequestDisassembler.toDomainObject(avaliacaoRequest);
 
-			avaliacao = avaliacaoService.salvar(avaliacao, request, servicoId);
+		avaliacao = avaliacaoService.salvar(avaliacao, request, servicoId);
 
-			return avaliacaoResponseAssembler.toResponse(avaliacao);
-		} catch (EstadoNaoEncontradoException e) {
-			throw new NegocioException(e.getMessage(), e);
-		}
+		return avaliacaoResponseAssembler.toResponse(avaliacao);
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	@RequestMapping("/libera")
+	public void adicionar(@RequestBody @Valid LiberaAvaliacaoRequest liberaAvaliacaoRequest,
+			HttpServletRequest request) {
+		LiberaAvaliacao liberaAvaliacao = liberaAvaliacaoRequestDisassembler.toDomainObject(liberaAvaliacaoRequest);
+
+		avaliacaoService.salvar(liberaAvaliacao, request);
 	}
 
 	@DeleteMapping("/{avaliacaoId}")

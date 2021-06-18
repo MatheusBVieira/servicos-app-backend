@@ -18,7 +18,7 @@ public class CidadeRequest {
 	
 	@Valid
 	@NotNull
-	private EstadoIdInput estado;
+	private EstadoIdRequest estado;
 
 	public Cidade converter() {
 		Estado estado2 = new Estado();
