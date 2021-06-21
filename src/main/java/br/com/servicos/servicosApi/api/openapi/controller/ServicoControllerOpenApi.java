@@ -21,7 +21,13 @@ public interface ServicoControllerOpenApi {
 	@ApiOperation("Lista os serviços")
 	List<ServicoResponse> listar(
 			@ApiParam(value = "ID de uma categoria", example = "1", required = false)
-			Long servicoId,
+			Long categoriaId,
+			@ApiParam(value = "ID de um prestador", example = "1", required = false)
+			Long prestadorId,
+			@ApiParam(value = "Latitude", example = "-27.600199504638695", required = false)
+			Double latitude,
+			@ApiParam(value = "Longitude", example = "-48.43534402342197", required = false)
+			Double longitude,
 			@ApiParam(value = "Deve passar paginação caso queira alterar a padrão", example = "Representação de uma paginação") Pageable paginacao);
 	
 	@ApiOperation("Busca um serviço por ID")

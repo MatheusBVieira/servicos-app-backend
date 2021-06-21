@@ -25,6 +25,7 @@ import br.com.servicos.servicosApi.api.assembler.ServicoRequestDisassembler;
 import br.com.servicos.servicosApi.api.assembler.ServicoResponseAssembler;
 import br.com.servicos.servicosApi.api.model.request.ServicoRequest;
 import br.com.servicos.servicosApi.api.model.response.ServicoResponse;
+import br.com.servicos.servicosApi.api.openapi.controller.ServicoControllerOpenApi;
 import br.com.servicos.servicosApi.domain.exception.EstadoNaoEncontradoException;
 import br.com.servicos.servicosApi.domain.exception.NegocioException;
 import br.com.servicos.servicosApi.domain.model.Servico;
@@ -32,7 +33,7 @@ import br.com.servicos.servicosApi.domain.service.ServicoService;
 
 @RestController
 @RequestMapping(value = "/servicos")
-public class ServicoController {
+public class ServicoController implements ServicoControllerOpenApi {
 
 	@Autowired
 	private ServicoService servicoService;
@@ -58,12 +59,14 @@ public class ServicoController {
 
 
 	
+	@Override
 	@GetMapping("/{servicoId}")
 	public ServicoResponse buscar(@PathVariable Long servicoId) {
 		Servico servico = servicoService.buscarOuFalhar(servicoId);
 		return servicoResponseAssembler.toResponse(servico);
 	}
 	
+	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ServicoResponse adicionar(@RequestBody @Valid ServicoRequest servicoRequest, HttpServletRequest request) {
@@ -78,6 +81,7 @@ public class ServicoController {
 		}
 	}
 	
+	@Override
 	@PutMapping("/{servicoId}")
 	public ServicoResponse atualizar(@PathVariable Long servicoId, @RequestBody @Valid ServicoRequest servicoRequest, HttpServletRequest request) {
 		try {
@@ -93,6 +97,7 @@ public class ServicoController {
 		}
 	}
 	
+	@Override
 	@DeleteMapping("/{servicoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long servicoId) {
