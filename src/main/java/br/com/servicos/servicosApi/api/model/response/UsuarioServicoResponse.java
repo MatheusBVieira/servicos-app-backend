@@ -15,6 +15,7 @@ public class UsuarioServicoResponse {
 	private String nomeCompleto;
 	
 	private String midiaPath;
+	private String telefone;
 	
 	private EnderecoResponse endereco;
 	
