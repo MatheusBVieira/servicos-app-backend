@@ -25,7 +25,7 @@ import br.com.servicos.servicosApi.domain.model.Usuario;
 import br.com.servicos.servicosApi.domain.service.UsuarioService;
 
 @RestController
-@RequestMapping("usuario")
+@RequestMapping("usuarios")
 public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
